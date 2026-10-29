@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport"
+              content="width=device-width, initial-scale=1.0"/>
+
+        <title>Administración de Usuarios - Hotel</title>
+
+        <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"
+              rel="stylesheet"/>
+
+        <link th:href="@{/webjars/font-awesome/css/all.css}"
+              rel="stylesheet"/>
+
+        <style>
+
+            /* Estilos generales */
+
+            body {
+                margin: 0;
+                background-color: #fafaf3;
+                font-family: Arial, sans-serif;
+                color: #222222;
+            }
+
+            /* Encabezado */
+
+            .encabezado-hotel {
+                background-color: #ffffff;
+                padding: 15px 25px;
+                border-bottom: 1px solid #eeeeee;
+            }
+
+            .nombre-hotel {
+                color: #174b22;
+                font-size: 32px;
+                font-weight: 500;
+                margin: 0;
+            }
+
+            .boton-inicio {
+                background-color: #123b16;
+                color: #ffffff;
+                border-radius: 20px;
+                padding: 9px 22px;
+                text-decoration: none;
+                font-size: 13px;
+                transition: 0.3s;
+            }
+
+            .boton-inicio:hover {
+                background-color: #24652b;
+                color: #ffffff;
+            }
+
+            /* Distribución principal */
+
+            .contenedor-principal {
+                display: flex;
+                min-height: calc(100vh - 75px);
+            }
+
+            /* Menú lateral */
+
+            .menu-lateral {
+                width: 230px;
+                min-width: 230px;
+                background-color: #123b16;
+                padding: 25px 12px;
+            }
+
+            .titulo-menu {
+                color: #ffffff;
+                font-size: 16px;
+                font-weight: 600;
+                padding: 10px 15px;
+                margin-bottom: 20px;
+            }
+
+            .enlace-menu {
+                display: block;
+                color: #ffffff;
+                text-decoration: none;
+                padding: 13px 15px;
+                border-radius: 8px;
+                margin-bottom: 8px;
+                font-size: 14px;
+                transition: 0.3s;
+            }
+
+            .enlace-menu:hover {
+                background-color: #24652b;
+                color: #ffffff;
+            }
+
+            .enlace-menu.activo {
+                background-color: #24652b;
+            }
+
+            .enlace-menu i {
+                margin-right: 10px;
+                width: 18px;
+                text-align: center;
+            }
+
+            /* Contenido */
+
+            .contenido {
+                flex: 1;
+                min-width: 0;
+                padding: 35px;
+                background-color: #fafaf3;
+            }
+
+            .titulo-principal {
+                font-size: 28px;
+                font-weight: 600;
+                color: #222222;
+                margin-bottom: 10px;
+            }
+
+            .descripcion-principal {
+                color: #777777;
+                font-size: 14px;
+                margin-bottom: 25px;
+            }
+
+            /* Tarjeta del formulario */
+
+            .tarjeta-formulario {
+                background-color: #e5e5e5;
+                border-radius: 15px;
+                padding: 30px;
+                max-width: 800px;
+                margin: 0 auto;
+                box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            }
+
+            .encabezado-formulario {
+                border-bottom: 1px solid #c7c7c7;
+                padding-bottom: 18px;
+                margin-bottom: 25px;
+            }
+
+            .titulo-formulario {
+                font-size: 21px;
+                font-weight: 600;
+                margin: 0;
+            }
+
+            /* Campos del formulario */
+
+            .form-label {
+                color: #222222;
+                font-size: 13px;
+                font-weight: 600;
+                margin-bottom: 7px;
+            }
+
+            .form-control,
+            .form-select {
+                background-color: #f5f5f5;
+                border: 1px solid #aaaaaa;
+                border-radius: 12px;
+                min-height: 44px;
+                padding: 10px 14px;
+                font-size: 14px;
+            }
+
+            .form-control:focus,
+            .form-select:focus {
+                background-color: #ffffff;
+                border-color: #174b22;
+                box-shadow: 0 0 0 3px rgba(23,75,34,0.12);
+            }
+
+            .form-text {
+                font-size: 12px;
+                color: #777777;
+                margin-top: 6px;
+            }
+
+            /* Información */
+
+            .informacion-administrador {
+                background-color: #dce8da;
+                border: 1px solid #bfd3bc;
+                color: #174b22;
+                padding: 15px;
+                border-radius: 10px;
+                font-size: 13px;
+            }
+
+            /* Botones */
+
+            .boton-verde {
+                background-color: #123b16;
+                color: #ffffff;
+                border: none;
+                border-radius: 9px;
+                padding: 12px 22px;
+                font-size: 13px;
+                cursor: pointer;
+                transition: 0.3s;
+            }
+
+            .boton-verde:hover {
+                background-color: #24652b;
+                color: #ffffff;
+            }
+
+            .boton-secundario {
+                background-color: #ffffff;
+                border: 1px solid #174b22;
+                color: #174b22;
+                border-radius: 9px;
+                padding: 11px 20px;
+                text-decoration: none;
+                font-size: 13px;
+                transition: 0.3s;
+            }
+
+            .boton-secundario:hover {
+                background-color: #e5eee3;
+                color: #174b22;
+            }
+
+            /* Mensajes */
+
+            .mensaje-error {
+                background-color: #f5dfdf;
+                border: 1px solid #dfaaaa;
+                color: #8c2828;
+                padding: 15px;
+                border-radius: 10px;
+                margin-bottom: 20px;
+            }
+
+            /* Diseño adaptable */
+
+            @media (max-width: 992px) {
+
+                .menu-lateral {
+                    width: 190px;
+                    min-width: 190px;
+                }
+
+                .contenido {
+                    padding: 25px;
+                }
+
+            }
+
+            @media (max-width: 768px) {
+
+                .contenedor-principal {
+                    flex-direction: column;
+                }
+
+                .menu-lateral {
+                    width: 100%;
+                    min-width: 100%;
+                    padding: 15px;
+                }
+
+                .titulo-menu {
+                    margin-bottom: 10px;
+                }
+
+                .contenido {
+                    padding: 20px;
+                }
+
+                .tarjeta-formulario {
+                    padding: 22px;
+                }
+
+                .nombre-hotel {
+                    font-size: 25px;
+                }
+
+                .titulo-principal {
+                    font-size: 23px;
+                }
+
+            }
+
+        </style>
+
+    </head>
+
+    <body>
+
+        <!-- Encabezado -->
+
+        <header class="encabezado-hotel">
+
+            <div class="container-fluid">
+
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <h3 class="nombre-hotel">
+
+                        <i class="fas fa-hotel"></i>
+                        Sistema Hotel
+
+                    </h3>
+
+                    <a th:href="@{/}"
+                       class="boton-inicio">
+
+                        <i class="fas fa-home"></i>
+                        Inicio
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </header>
+
+        <!-- Distribución principal -->
+
+        <div class="contenedor-principal">
+
+            <!-- Menú lateral -->
+
+            <aside class="menu-lateral">
+
+                <h5 class="titulo-menu">
+
+                    <i class="fas fa-user-cog"></i>
+                    Administración de Usuarios
+
+                </h5>
+
+                <nav>
+
+                    <a th:href="@{/usuario/listado}"
+                       class="enlace-menu">
+
+                        <i class="fas fa-users"></i>
+                        Listado de Usuarios
+
+                    </a>
+
+                    <a th:href="@{/usuario/nuevo}"
+                       class="enlace-menu activo">
+
+                        <i class="fas fa-user-plus"></i>
+                        Nuevo Administrador
+
+                    </a>
+
+                    <a th:href="@{/usuario/registro}"
+                       class="enlace-menu">
+
+                        <i class="fas fa-address-card"></i>
+                        Registro de clientes
+
+                    </a>
+
+                    <a th:href="@{/}"
+                       class="enlace-menu">
+
+                        <i class="fas fa-home"></i>
+                        Volver al inicio
+
+                    </a>
+
+                </nav>
+
+            </aside>
+
+            <!-- Contenido principal -->
+
+            <main class="contenido">
+
+                <!-- Título principal -->
+
+                <div class="mb-4">
+
+                    <h2 class="titulo-principal"
+                        th:if="${usuario.idUsuario == null}">
+
+                        <i class="fas fa-user-plus"></i>
+                        Registrar Administrador
+
+                    </h2>
+
+                    <h2 class="titulo-principal"
+                        th:unless="${usuario.idUsuario == null}">
+
+                        <i class="fas fa-user-edit"></i>
+                        Modificar Administrador
+
+                    </h2>
+
+                    <p class="descripcion-principal">
+
+                        Administración de cuentas del sistema hotelero.
+
+                    </p>
+
+                </div>
+
+                <!-- Mensajes de error -->
+
+                <div th:if="${error}"
+                     class="mensaje-error"
+                     role="alert">
+
+                    <i class="fas fa-exclamation-circle"></i>
+
+                    <span th:text="${error}"></span>
+
+                </div>
+
+                <!-- Tarjeta del formulario -->
+
+                <div class="tarjeta-formulario">
+
+                    <!-- Encabezado del formulario -->
+
+                    <div class="encabezado-formulario">
+
+                        <h5 class="titulo-formulario">
+
+                            <i class="fas fa-user text-success"></i>
+                            Datos del Administrador
+
+                        </h5>
+
+                    </div>
+
+                    <!-- Formulario -->
+
+                    <form th:action="${usuario.idUsuario == null}
+                          ? @{/usuario/guardar}
+                          : @{/usuario/actualizar}"
+                          method="post">
+
+                        <!-- ID del usuario en modificación -->
+
+                        <input th:if="${usuario.idUsuario != null}"
+                               type="hidden"
+                               name="idUsuario"
+                               th:value="${usuario.idUsuario}"/>
+
+                        <!-- Nombre -->
+
+                        <div class="mb-3">
+
+                            <label for="nombre"
+                                   class="form-label">
+
+                                Nombre completo
+
+                            </label>
+
+                            <input type="text"
+                                   class="form-control"
+                                   id="nombre"
+                                   name="nombre"
+                                   th:value="${usuario.nombre}"
+                                   maxlength="50"
+                                   placeholder="Ingrese el nombre completo"
+                                   required/>
+
+                        </div>
+
+                        <!-- Correo -->
+
+                        <div class="mb-3">
+
+                            <label for="correo"
+                                   class="form-label">
+
+                                Correo electrónico
+
+                            </label>
+
+                            <input type="email"
+                                   class="form-control"
+                                   id="correo"
+                                   name="correo"
+                                   th:value="${usuario.correo}"
+                                   maxlength="80"
+                                   placeholder="ejemplo@correo.com"
+                                   required/>
+
+                        </div>
+
+                        <!-- Teléfono -->
+
+                        <div class="mb-3">
+
+                            <label for="telefono"
+                                   class="form-label">
+
+                                Teléfono
+
+                            </label>
+
+                            <input type="tel"
+                                   class="form-control"
+                                   id="telefono"
+                                   name="telefono"
+                                   th:value="${usuario.telefono}"
+                                   maxlength="8"
+                                   pattern="[0-9]{8}"
+                                   placeholder="88888888"
+                                   required/>
+
+                        </div>
+
+                        <!-- Contraseña para nuevos administradores -->
+
+                        <div class="mb-3"
+                             th:if="${usuario.idUsuario == null}">
+
+                            <label for="contrasena"
+                                   class="form-label">
+
+                                Contraseña
+
+                            </label>
+
+                            <input type="password"
+                                   class="form-control"
+                                   id="contrasena"
+                                   name="contrasena"
+                                   minlength="8"
+                                   placeholder="Mínimo 8 caracteres"
+                                   autocomplete="new-password"
+                                   required/>
+
+                            <div class="form-text">
+
+                                La contraseña debe contener
+                                al menos 8 caracteres.
+
+                            </div>
+
+                        </div>
+
+                        <!-- Empresa -->
+
+                        <div class="mb-4">
+
+                            <label for="idEmpresa"
+                                   class="form-label">
+
+                                Hotel asignado
+
+                            </label>
+
+                            <select class="form-select"
+                                    id="idEmpresa"
+                                    name="idEmpresa"
+                                    required>
+
+                                <option value="">
+
+                                    Seleccione un hotel
+
+                                </option>
+
+                                <option th:each="empresa : ${empresas}"
+                                        th:value="${empresa.idEmpresa}"
+                                        th:text="${empresa.nombre}"
+                                        th:selected="${usuario.empresa != null
+                                        and usuario.empresa.idEmpresa == empresa.idEmpresa}">
+
+                                    Hotel
+
+                                </option>
+
+                            </select>
+
+                            <div class="form-text">
+
+                                Cada administrador estará
+                                asociado a un hotel.
+
+                            </div>
+
+                        </div>
+
+                        <!-- Información del rol -->
+
+                        <div class="informacion-administrador mb-4">
+
+                            <i class="fas fa-info-circle"></i>
+
+                            El usuario será registrado
+                            con el rol de Administrador.
+
+                        </div>
+
+                        <!-- Botones -->
+
+                        <div class="d-flex justify-content-end gap-2 flex-wrap">
+
+                            <a th:href="@{/usuario/listado}"
+                               class="boton-secundario">
+
+                                <i class="fas fa-times"></i>
+                                Cancelar
+
+                            </a>
+
+                            <button type="submit"
+                                    class="boton-verde">
+
+                                <i class="fas fa-save"></i>
+
+                                <span th:if="${usuario.idUsuario == null}">
+
+                                    Guardar Administrador
+
+                                </span>
+
+                                <span th:unless="${usuario.idUsuario == null}">
+
+                                    Actualizar Administrador
+
+                                </span>
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </main>
+
+        </div>
+
+        <!-- Bootstrap JavaScript -->
+
+        <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}">
+        </script>
+
+    </body>
+
+</html>
