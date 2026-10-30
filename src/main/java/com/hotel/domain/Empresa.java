@@ -30,6 +30,9 @@ import lombok.Setter;
 @Entity
 @Table(name = "empresa")
 public class Empresa {
+    
+    private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_empresa")
@@ -55,5 +58,7 @@ public class Empresa {
     @Column(nullable = false)
     private boolean activo = true;
     
+    @OneToMany(mappedBy = "empresa")
+    private List<Servicio> servicios;
     
 }
