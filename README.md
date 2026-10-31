@@ -11,7 +11,6 @@ Desarrollar una aplicación web transaccional que permita gestionar diferentes h
 - Kevin Samuel García Calderón
 - Andres Felipe Rueda Aguilar
 - Elioth Josue Artavia Picado
-- Edmilson Yasser Flores Salazar
 
 ## Tecnologías
 
