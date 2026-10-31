@@ -32,9 +32,10 @@ public class Habitacion implements Serializable {
     @NotNull(message = "El tipo de habitación no puede estar vacío.")
     private TipoHabitacion tipoHabitacion;
 
-    @NotNull(message = "El número no puede estar vacío.")
-    @Min(value = 1, message = "El número debe ser mayor o igual a 1.")
-    private Integer numero;
+    @Column(name = "numero", nullable = false, length = 15)
+    @NotBlank(message = "El número no puede estar vacío.")
+    @Size(max = 15, message = "El número no puede tener más de 15 caracteres.")
+    private String numero;
 
     //Estados: DISPONIBLE, OCUPADA o MANTENIMIENTO
     @Column(nullable = false, length = 20)

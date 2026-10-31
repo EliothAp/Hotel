@@ -7,11 +7,16 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 
 @Configuration
+@ConditionalOnProperty(
+        name = "hotel.firebase.enabled",
+        havingValue = "true"
+)
 public class StorageConfig {
 
     @Value("${firebase.json.path}")
@@ -28,5 +33,5 @@ public class StorageConfig {
             return StorageOptions.newBuilder().setCredentials(credentials).build().getService();
         }
     }
-    
+
 }

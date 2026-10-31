@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport"
+              content="width=device-width, initial-scale=1.0"/>
+
+        <title>Inicio - Sistema Hotel</title>
+
+        <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"
+              rel="stylesheet"/>
+
+        <link th:href="@{/webjars/font-awesome/css/all.css}"
+              rel="stylesheet"/>
+
+        <style>
+
+            body {
+                margin: 0;
+                background-color: #f8f8f3;
+                font-family: Arial, sans-serif;
+            }
+
+            /* Encabezado */
+
+            .encabezado-hotel {
+                background-color: white;
+                padding: 15px 35px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            }
+
+            .nombre-hotel {
+                color: #174b22;
+                font-size: 32px;
+                font-weight: 500;
+                margin: 0;
+            }
+
+            /* Fondo principal */
+
+            .fondo-inicio {
+                min-height: calc(100vh - 75px);
+                background: linear-gradient(
+                    135deg,
+                    #e1e9df,
+                    #f8f8f3
+                    );
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                padding: 45px 20px;
+            }
+
+            /* Tarjeta principal */
+
+            .tarjeta-inicio {
+                background-color: white;
+                width: 100%;
+                max-width: 650px;
+
+                padding: 45px 40px;
+                border-radius: 15px;
+
+                box-shadow: 0 12px 35px rgba(0,0,0,0.12);
+
+                text-align: center;
+            }
+
+            .icono-hotel {
+                font-size: 65px;
+                color: #174b22;
+                margin-bottom: 20px;
+            }
+
+            .titulo-inicio {
+                color: #222222;
+                font-size: 32px;
+                font-weight: 600;
+                margin-bottom: 15px;
+            }
+
+            .descripcion-inicio {
+                color: #777777;
+                font-size: 15px;
+                margin-bottom: 30px;
+            }
+
+            /* Botones */
+
+            .boton-principal {
+                background-color: #123b16;
+                color: white;
+
+                border: none;
+                border-radius: 20px;
+
+                padding: 12px 30px;
+                text-decoration: none;
+
+                display: inline-block;
+                min-width: 190px;
+
+                transition: 0.3s;
+            }
+
+            .boton-principal:hover {
+                background-color: #24652b;
+                color: white;
+            }
+
+            .boton-secundario {
+                background-color: transparent;
+                color: #174b22;
+
+                border: 2px solid #174b22;
+                border-radius: 20px;
+
+                padding: 10px 30px;
+                text-decoration: none;
+
+                display: inline-block;
+                min-width: 190px;
+
+                transition: 0.3s;
+            }
+
+            .boton-secundario:hover {
+                background-color: #174b22;
+                color: white;
+            }
+
+            /* Adaptación para celulares */
+
+            @media (max-width: 576px) {
+
+                .encabezado-hotel {
+                    padding: 15px;
+                }
+
+                .nombre-hotel {
+                    font-size: 25px;
+                }
+
+                .tarjeta-inicio {
+                    padding: 30px 20px;
+                }
+
+                .titulo-inicio {
+                    font-size: 26px;
+                }
+
+            }
+
+        </style>
+
+    </head>
+
+    <body>
+
+        <!-- Encabezado -->
+
+        <header class="encabezado-hotel">
+
+            <div class="container-fluid">
+
+                <h3 class="nombre-hotel">
+
+                    <i class="fas fa-hotel"></i>
+                    Sistema Hotel
+
+                </h3>
+
+            </div>
+
+        </header>
+
+        <!-- Contenido principal -->
+
+        <main class="fondo-inicio">
+
+            <div class="tarjeta-inicio">
+
+                <div class="icono-hotel">
+                    <i class="fas fa-hotel"></i>
+                </div>
+
+                <h1 class="titulo-inicio">
+                    Bienvenido a Sistema Hotel
+                </h1>
+
+                <p class="descripcion-inicio">
+                    Descubrí nuestros hoteles y disfrutá
+                    de una experiencia cómoda y segura.
+                    Registrate o iniciá sesión para comenzar.
+                </p>
+
+                <div class="d-flex flex-wrap
+                     justify-content-center gap-3">
+
+                    <a th:href="@{/usuario/registro}"
+                       class="boton-principal">
+
+                        <i class="fas fa-user-plus"></i>
+                        Registrarse
+
+                    </a>
+
+                    <a th:href="@{/login}"
+                       class="boton-secundario">
+
+                        <i class="fas fa-sign-in-alt"></i>
+                        Iniciar sesión
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </main>
+
+    </body>
+</html>

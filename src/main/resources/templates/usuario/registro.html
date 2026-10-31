@@ -59,8 +59,8 @@
 
                 background-image:
                     linear-gradient(
-                        rgba(0,0,0,0.48),
-                        rgba(0,0,0,0.55)
+                    rgba(0,0,0,0.48),
+                    rgba(0,0,0,0.55)
                     ),
                     url('/img/hotel-fondo.jpg');
 
@@ -465,6 +465,27 @@
                     </div>
 
                 </form>
+
+                <!-- Iniciar sesión si ya tiene una cuenta -->
+
+                <div class="text-center mt-4">
+
+                    <p class="mb-2"
+                       style="font-size: 13px; color: #777777;">
+
+                        ¿Ya tenés una cuenta?
+
+                    </p>
+
+                    <a th:href="@{/login}"
+                       class="boton-volver">
+
+                        <i class="fas fa-sign-in-alt"></i>
+                        Iniciar sesión
+
+                    </a>
+
+                </div>
 
                 <!-- Volver al inicio -->
 

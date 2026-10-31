@@ -29,14 +29,14 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     public List<Usuario> findByEmpresaIdEmpresa(Integer idEmpresa);
 
     // Recupera los usuarios según su rol
-    public List<Usuario> findByRoleNombre(String nombre);
+    public List<Usuario> findByRolNombre(String nombre);
+
+    // Recupera los clientes de un hotel específico
+    public List<Usuario> findByEmpresaIdEmpresaAndRolNombre(
+            Integer idEmpresa, String rol);
 
     // Busca clientes por nombre dentro de un hotel específico
     public List<Usuario> findByEmpresaIdEmpresaAndRolNombreAndNombreContainingIgnoreCase(
-            Integer idEmpresa, String rol, String nombre);
-
-    // Busca clientes por nombre dentro de un hotel específico
-    public List<Usuario> findByEmpresaIdEmpresaAndRoleNombreAndNombreContainingIgnoreCase(
             Integer idEmpresa, String rol, String nombre);
 
 }

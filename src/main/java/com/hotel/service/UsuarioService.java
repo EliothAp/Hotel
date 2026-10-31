@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.hotel.service;
 
 /**
@@ -15,6 +11,7 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
 
     // Obtener todos los usuarios o solamente los activos
     @Transactional(readOnly = true)
@@ -103,13 +101,25 @@ public class UsuarioService {
                     "El usuario debe pertenecer a un hotel.");
         }
 
+        // Codificar la contraseña al registrar un usuario nuevo
+        if (usuario.getIdUsuario() == null) {
+
+            if (usuario.getContrasena() == null
+                    || usuario.getContrasena().isBlank()) {
+                throw new IllegalArgumentException(
+                        "Debe ingresar una contraseña.");
+            }
+
+            usuario.setContrasena(
+                    passwordEncoder.encode(usuario.getContrasena()));
+        }
+
         usuarioRepository.save(usuario);
     }
 
     // Eliminar un usuario
     @Transactional
     public void delete(Integer idUsuario) {
-
         if (!usuarioRepository.existsById(idUsuario)) {
             throw new IllegalArgumentException(
                     "El usuario con ID " + idUsuario + " no existe.");
@@ -118,7 +128,6 @@ public class UsuarioService {
         try {
             usuarioRepository.deleteById(idUsuario);
             usuarioRepository.flush();
-
         } catch (DataIntegrityViolationException e) {
             throw new IllegalStateException(
                     "No se puede eliminar el usuario. Tiene datos asociados.",

@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport"
+              content="width=device-width, initial-scale=1.0"/>
+
+        <title>Iniciar Sesión - Sistema Hotel</title>
+
+        <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"
+              rel="stylesheet"/>
+
+        <link th:href="@{/webjars/font-awesome/css/all.css}"
+              rel="stylesheet"/>
+
+        <style>
+
+            body {
+                margin: 0;
+                background-color: #f8f8f3;
+                font-family: Arial, sans-serif;
+            }
+
+            /* Encabezado */
+
+            .encabezado-hotel {
+                background-color: white;
+                padding: 15px 35px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            }
+
+            .nombre-hotel {
+                color: #174b22;
+                font-size: 32px;
+                font-weight: 500;
+                margin: 0;
+            }
+
+            .boton-inicio {
+                background-color: #123b16;
+                color: white;
+                border-radius: 20px;
+                padding: 9px 22px;
+                text-decoration: none;
+                transition: 0.3s;
+            }
+
+            .boton-inicio:hover {
+                background-color: #24652b;
+                color: white;
+            }
+
+            /* Fondo principal */
+
+            .fondo-login {
+                min-height: calc(100vh - 75px);
+
+                background-image:
+                    linear-gradient(
+                    rgba(0,0,0,0.48),
+                    rgba(0,0,0,0.55)
+                    ),
+                    url('/img/hotel-fondo.jpg');
+
+                background-color: #e1e9df;
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                padding: 45px 20px;
+            }
+
+            /* Tarjeta */
+
+            .tarjeta-login {
+                background-color: #eeeeee;
+                width: 100%;
+                max-width: 440px;
+
+                padding: 35px;
+
+                border-radius: 15px;
+
+                box-shadow: 0 12px 35px rgba(0,0,0,0.25);
+            }
+
+            .titulo-login {
+                color: #222222;
+                font-size: 25px;
+                font-weight: 600;
+                margin-bottom: 8px;
+            }
+
+            .descripcion-login {
+                color: #777777;
+                font-size: 13px;
+                margin-bottom: 25px;
+            }
+
+            /* Campos */
+
+            .form-label {
+                color: #222222;
+                font-size: 13px;
+                font-weight: 500;
+                margin-bottom: 6px;
+            }
+
+            .form-control {
+                background-color: #eeeeee;
+                border: 1px solid #999999;
+                border-radius: 12px;
+
+                min-height: 43px;
+                padding: 9px 14px;
+            }
+
+            .form-control:focus {
+                border-color: #174b22;
+                box-shadow: 0 0 0 3px rgba(23,75,34,0.12);
+                background-color: white;
+            }
+
+            /* Botón */
+
+            .boton-login {
+                background-color: #123b16;
+                color: white;
+
+                border: none;
+                border-radius: 20px;
+
+                padding: 11px 35px;
+                font-size: 14px;
+                min-width: 210px;
+
+                transition: 0.3s;
+            }
+
+            .boton-login:hover {
+                background-color: #24652b;
+                color: white;
+            }
+
+            /* Enlaces */
+
+            .enlace-registro {
+                color: #174b22;
+                text-decoration: none;
+                font-size: 13px;
+                font-weight: 500;
+            }
+
+            .enlace-registro:hover {
+                text-decoration: underline;
+            }
+
+            /* Adaptación para celulares */
+
+            @media (max-width: 576px) {
+
+                .encabezado-hotel {
+                    padding: 15px;
+                }
+
+                .nombre-hotel {
+                    font-size: 25px;
+                }
+
+                .tarjeta-login {
+                    padding: 25px 20px;
+                }
+
+                .fondo-login {
+                    padding: 25px 15px;
+                }
+
+            }
+
+        </style>
+
+    </head>
+
+    <body>
+
+        <!-- Encabezado -->
+
+        <header class="encabezado-hotel">
+
+            <div class="container-fluid">
+
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <h3 class="nombre-hotel">
+
+                        <i class="fas fa-hotel"></i>
+                        Sistema Hotel
+
+                    </h3>
+
+                    <a th:href="@{/}"
+                       class="boton-inicio">
+
+                        <i class="fas fa-home"></i>
+                        Inicio
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </header>
+
+        <!-- Contenido principal -->
+
+        <main class="fondo-login">
+
+            <div class="tarjeta-login">
+
+                <!-- Título -->
+
+                <h2 class="titulo-login">
+
+                    <i class="fas fa-sign-in-alt"></i>
+                    Iniciar Sesión
+
+                </h2>
+
+                <p class="descripcion-login">
+
+                    Ingresá tus credenciales para acceder
+                    a tu cuenta de Sistema Hotel.
+
+                </p>
+
+                <!-- Mensaje de error -->
+
+                <div th:if="${param.error}"
+                     class="alert alert-danger"
+                     role="alert">
+
+                    <i class="fas fa-exclamation-circle"></i>
+
+                    Correo electrónico o contraseña incorrectos.
+
+                </div>
+
+                <!-- Mensaje al cerrar sesión -->
+
+                <div th:if="${param.logout}"
+                     class="alert alert-success"
+                     role="alert">
+
+                    <i class="fas fa-check-circle"></i>
+
+                    Cerraste sesión correctamente.
+
+                </div>
+
+                <!-- Formulario de inicio de sesión -->
+
+                <form th:action="@{/login}"
+                      method="post">
+
+                    <!-- Correo electrónico -->
+
+                    <div class="mb-3">
+
+                        <label for="username"
+                               class="form-label">
+
+                            Correo electrónico
+
+                        </label>
+
+                        <input type="email"
+                               class="form-control"
+                               id="username"
+                               name="username"
+                               placeholder="ejemplo@correo.com"
+                               autocomplete="username"
+                               required/>
+
+                    </div>
+
+                    <!-- Contraseña -->
+
+                    <div class="mb-4">
+
+                        <label for="password"
+                               class="form-label">
+
+                            Contraseña
+
+                        </label>
+
+                        <input type="password"
+                               class="form-control"
+                               id="password"
+                               name="password"
+                               placeholder="Ingrese su contraseña"
+                               autocomplete="current-password"
+                               required/>
+
+                    </div>
+
+                    <!-- Iniciar sesión -->
+
+                    <div class="text-center">
+
+                        <button type="submit"
+                                class="boton-login">
+
+                            <i class="fas fa-sign-in-alt"></i>
+                            Iniciar Sesión
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+                <!-- Registro -->
+
+                <div class="text-center mt-4">
+
+                    <p class="mb-2"
+                       style="font-size: 13px; color: #777777;">
+
+                        ¿Todavía no tenés una cuenta?
+
+                    </p>
+
+                    <a th:href="@{/usuario/registro}"
+                       class="enlace-registro">
+
+                        <i class="fas fa-user-plus"></i>
+                        Registrate aquí
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </main>
+
+    </body>
+
+</html>

@@ -133,7 +133,7 @@ public class UsuarioController {
             usuario.setNombre(nombre.trim());
             usuario.setCorreo(correo.trim().toLowerCase());
             usuario.setTelefono(telefono.trim());
-            usuario.setContrasena(cifrarContrasena(contrasena));
+            usuario.setContrasena(contrasena);
             usuario.setActivo(true);
             usuario.setEmpresa(empresa);
             usuario.setRol(rol);
@@ -180,7 +180,7 @@ public class UsuarioController {
             usuario.setNombre(nombre.trim());
             usuario.setCorreo(correo.trim().toLowerCase());
             usuario.setTelefono(telefono.trim());
-            usuario.setContrasena(cifrarContrasena(contrasena));
+            usuario.setContrasena(contrasena);
             usuario.setActivo(true);
             usuario.setEmpresa(empresa);
             usuario.setRol(rol);

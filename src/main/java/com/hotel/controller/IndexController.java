@@ -26,7 +26,7 @@ public class IndexController {
         model.addAttribute("empresas", lista);
         var servicios = servicioService.getServicios(true);
         model.addAttribute("servicios", servicios);
-        return "/index";
+        return "index";
     }
 
     @GetMapping("/consultas/{idEmpresa}")
@@ -42,6 +42,11 @@ public class IndexController {
         }
         var empresas = empresaService.getEmpresas(true);
         model.addAttribute("empresas", empresas);
-        return "/index";
+        return "index";
+    }
+
+    @GetMapping("/login")
+    public String mostrarLogin() {
+        return "login";
     }
 }

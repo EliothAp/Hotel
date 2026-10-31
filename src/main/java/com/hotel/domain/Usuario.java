@@ -63,6 +63,6 @@ public class Usuario implements Serializable {
     @ManyToOne
     @JoinColumn(name = "id_rol", nullable = false)
     @NotNull(message = "El rol no puede estar vacío.")
-    private Role role;
+    private Rol rol;
 
 }
