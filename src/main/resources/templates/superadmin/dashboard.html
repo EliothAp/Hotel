@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{empresa/fragmentos :: head}"></head>
+    <body>
+        <header th:replace="~{empresa/fragmentos :: encabezado}"></header>
+
+        <!-- Bienvenida -->
+        <section class="container py-4">
+            <h2 class="texto-hotel mb-1">[[#{superadmin.bienvenida}]]</h2>
+            <p class="text-muted mb-0">[[#{superadmin.descripcion}]]</p>
+        </section>
+
+        <!-- Resumen general -->
+        <section class="container">
+            <div class="row g-3">
+                <div class="col-6 col-md-3">
+                    <div class="card text-center shadow-sm tarjeta-resumen">
+                        <div class="card-body">
+                            <i class="fa-solid fa-hotel fa-2x texto-hotel"></i>
+                            <h3 class="mt-2 mb-0">[[${totalEmpresas}]]</h3>
+                            <small class="text-muted">[[#{superadmin.totalHoteles}]]</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="card text-center shadow-sm tarjeta-resumen">
+                        <div class="card-body">
+                            <i class="fa-solid fa-circle-check fa-2x text-success"></i>
+                            <h3 class="mt-2 mb-0">[[${totalActivas}]]</h3>
+                            <small class="text-muted">[[#{superadmin.activos}]]</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="card text-center shadow-sm tarjeta-resumen">
+                        <div class="card-body">
+                            <i class="fa-solid fa-circle-pause fa-2x text-secondary"></i>
+                            <h3 class="mt-2 mb-0">[[${totalInactivas}]]</h3>
+                            <small class="text-muted">[[#{superadmin.inactivos}]]</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="card text-center shadow-sm tarjeta-resumen">
+                        <div class="card-body">
+                            <i class="fa-solid fa-user-tie fa-2x text-primary"></i>
+                            <h3 class="mt-2 mb-0">[[${totalAdministradores}]]</h3>
+                            <small class="text-muted">[[#{superadmin.administradores}]]</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Hoteles registrados (datos reales de MySQL) -->
+        <section class="container py-4">
+            <div class="card shadow-sm">
+                <div class="card-header encabezado-seccion text-white d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">[[#{superadmin.hotelesRegistrados}]]</h4>
+                    <a th:href="@{/empresa/listado}" class="btn btn-light btn-sm">
+                        <i class="fa-solid fa-pen-to-square"></i> [[#{superadmin.gestionarHoteles}]]
+                    </a>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive" th:if="${empresas != null and !empresas.empty}">
+                        <table class="table table-hover align-middle">
+                            <thead>
+                                <tr>
+                                    <th>[[#{empresa.nombre}]]</th>
+                                    <th>[[#{empresa.correo}]]</th>
+                                    <th>[[#{empresa.telefono}]]</th>
+                                    <th>[[#{empresa.estado}]]</th>
+                                    <th>[[#{superadmin.administradores}]]</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="e : ${empresas}">
+                                    <td><strong>[[${e.nombre}]]</strong></td>
+                                    <td>[[${e.correo}]]</td>
+                                    <td>[[${e.telefono}]]</td>
+                                    <td>
+                                        <span th:if="${e.activo}" class="badge bg-success">[[#{estado.activo}]]</span>
+                                        <span th:unless="${e.activo}" class="badge bg-secondary">[[#{estado.inactivo}]]</span>
+                                    </td>
+                                    <td>
+                                        <!-- Se muestran los administradores cuyo hotel es el de esta fila -->
+                                        <span th:each="a : ${administradores}"
+                                              th:if="${a.empresa != null and a.empresa.idEmpresa == e.idEmpresa}"
+                                              class="d-block">[[${a.nombre}]]</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="text-center p-2" th:if="${empresas == null or empresas.empty}">
+                        <span>[[#{lista.vacia}]]</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección preparada para asignar administradores a cada hotel -->
+        <section class="container pb-4">
+            <div class="card shadow-sm">
+                <div class="card-header encabezado-seccion text-white">
+                    <h4 class="mb-0"><i class="fa-solid fa-user-tie"></i> [[#{superadmin.adminTitulo}]]</h4>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted">[[#{superadmin.adminDescripcion}]]</p>
+
+                    <!-- Aviso mientras la gestión de usuarios siga deshabilitada -->
+                    <div th:unless="${administracionHabilitada}" class="alert alert-info">
+                        <i class="fa-solid fa-circle-info"></i> [[#{superadmin.adminDeshabilitado}]]
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-md-6 col-lg-4" th:each="e : ${empresas}">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title texto-hotel">
+                                        [[${e.nombre}]]
+                                        <span th:unless="${e.activo}" class="badge bg-secondary ms-1">[[#{estado.inactivo}]]</span>
+                                    </h5>
+                                    <!-- Administradores de este hotel -->
+                                    <ul class="list-unstyled mb-3">
+                                        <li th:each="a : ${administradores}"
+                                            th:if="${a.empresa != null and a.empresa.idEmpresa == e.idEmpresa}">
+                                            <i class="fa-solid fa-user text-muted"></i> [[${a.nombre}]]
+                                            <small class="text-muted d-block ms-3">[[${a.correo}]]</small>
+                                        </li>
+                                    </ul>
+                                    <!-- Reutiliza el formulario de UsuarioController (US-02) -->
+                                    <a th:if="${administracionHabilitada and e.activo}"
+                                       th:href="@{/usuario/nuevo}"
+                                       class="btn btn-outline-success btn-sm">
+                                        <i class="fa-solid fa-user-plus"></i> [[#{superadmin.adminAsignar}]]
+                                    </a>
+                                    <button th:unless="${administracionHabilitada and e.activo}"
+                                            type="button" class="btn btn-outline-secondary btn-sm" disabled>
+                                        <i class="fa-solid fa-user-plus"></i> [[#{superadmin.adminAsignar}]]
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer th:replace="~{empresa/fragmentos :: pie}"></footer>
+    </body>
+</html>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{empresa/fragmentos :: head}"></head>
+    <body>
+        <header th:replace="~{empresa/fragmentos :: encabezado}"></header>
+        <section th:replace="~{empresa/fragmentos :: mensajes}"></section>
+
+        <section th:replace="~{empresa/fragmentos :: formulario}"></section>
+        <section th:replace="~{empresa/fragmentos :: listado}"></section>
+
+        <section th:replace="~{empresa/fragmentos :: confirmarEliminar}"></section>
+        <footer th:replace="~{empresa/fragmentos :: pie}"></footer>
+        <script th:src="@{/js/modulos/empresa.js}"></script>
+    </body>
+</html>
