@@ -33,3 +33,38 @@
     background-color: #174b22;
     color: #ffffff;
 }
+/* FONDO GENERAL */
+.fondo-login,
+.fondo-cliente,
+.fondo-admin,
+.fondo-superadmin {
+    min-height: 100vh;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.fondo-login {
+    background-image:
+        linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),
+        url('/img/fondo-login.jpg');
+}
+
+.fondo-cliente {
+    background-image:
+        linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),
+        url('/img/fondo-cliente.jpg');
+}
+
+.fondo-admin {
+    background-image:
+        linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),
+        url('/img/fondo-admin.jpg');
+}
+
+.fondo-superadmin {
+    background-image:
+        linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),
+        url('/img/fondo-superadmin.jpg');
+}

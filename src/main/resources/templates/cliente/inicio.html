@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport"
+              content="width=device-width, initial-scale=1.0"/>
+
+        <title>Habitaciones del hotel</title>
+
+        <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"
+              rel="stylesheet"/>
+        <style>
+            body {
+                margin: 0;
+                min-height: 100vh;
+                background-image:
+                    linear-gradient(
+                    rgba(0, 0, 0, 0.40),
+                    rgba(0, 0, 0, 0.50)
+                    ),
+                    url('/img/fondo-cliente.jpg');
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-attachment: fixed;
+            }
+
+            main.container {
+                background-color: rgba(255, 255, 255, 0.92);
+                border-radius: 15px;
+                margin-top: 30px;
+                margin-bottom: 30px;
+                padding: 35px !important;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <header class="bg-white shadow-sm py-3">
+            <div class="container d-flex justify-content-between
+                 align-items-center">
+
+                <div>
+                    <h3 class="text-success mb-0"
+                        th:text="${empresa.nombre}">
+                        Nombre del hotel
+                    </h3>
+
+                    <small class="text-muted">
+                        Sistema Hotel
+                    </small>
+                </div>
+
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit"
+                            class="btn btn-outline-danger">
+                        Cerrar sesión
+                    </button>
+                </form>
+
+            </div>
+        </header>
+
+        <main class="container py-5">
+
+            <section class="mb-4">
+                <h1 class="h3">
+                    ¡Bienvenido,
+                    <span th:text="${usuario.nombre}">
+                        Cliente
+                    </span>!
+                </h1>
+
+                <p class="text-muted">
+                    Estas son las habitaciones de tu hotel.
+                </p>
+            </section>
+
+            <section class="mb-5">
+
+                <h2 class="h4 mb-3">
+                    Habitaciones disponibles en el catálogo
+                </h2>
+
+                <div th:if="${#lists.isEmpty(habitaciones)}"
+                     class="alert alert-info">
+
+                    Actualmente este hotel no tiene habitaciones
+                    registradas.
+
+                </div>
+
+                <div class="row g-4"
+                     th:unless="${#lists.isEmpty(habitaciones)}">
+
+                    <div class="col-md-6 col-lg-4"
+                         th:each="habitacion : ${habitaciones}">
+
+                        <div class="card h-100 shadow-sm">
+
+                            <div class="card-body">
+
+                                <h3 class="h5 card-title">
+                                    Habitación
+                                    <span th:text="${habitacion.numero}">
+                                        101
+                                    </span>
+                                </h3>
+
+                                <p class="mb-2">
+                                    <strong>Tipo:</strong>
+                                    <span th:text="${habitacion.tipoHabitacion.nombre}">
+                                        Individual
+                                    </span>
+                                </p>
+
+                                <p class="mb-2">
+                                    <strong>Capacidad:</strong>
+                                    <span th:text="${habitacion.tipoHabitacion.capacidad}">
+                                        2
+                                    </span>
+                                    personas
+                                </p>
+
+                                <p class="mb-3">
+                                    <strong>Precio por noche:</strong>
+                                    ₡<span th:text="${#numbers.formatDecimal(
+                                           habitacion.tipoHabitacion.precioNoche,
+                                           1, 'COMMA', 2, 'POINT')}">
+                                        35000.00
+                                    </span>
+                                </p>
+
+                                <span th:if="${habitacion.estado == 'DISPONIBLE'}"
+                                      class="badge bg-success">
+                                    Disponible
+                                </span>
+
+                                <span th:if="${habitacion.estado == 'OCUPADA'}"
+                                      class="badge bg-danger">
+                                    Ocupada
+                                </span>
+
+                                <span th:if="${habitacion.estado == 'MANTENIMIENTO'}"
+                                      class="badge bg-warning text-dark">
+                                    En mantenimiento
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <hr/>
+
+            <section>
+                <h2 class="h5">Mi información</h2>
+
+                <p>
+                    <strong>Nombre:</strong>
+                    <span th:text="${usuario.nombre}"></span>
+                </p>
+
+                <p>
+                    <strong>Correo:</strong>
+                    <span th:text="${usuario.correo}"></span>
+                </p>
+
+                <p>
+                    <strong>Teléfono:</strong>
+                    <span th:text="${usuario.telefono}"></span>
+                </p>
+            </section>
+
+        </main>
+
+        <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}">
+        </script>
+
+    </body>
+</html>

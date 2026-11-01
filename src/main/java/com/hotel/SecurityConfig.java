@@ -11,31 +11,65 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http)
+            throws Exception {
 
         http
                 .authorizeHttpRequests(auth -> auth
+                // Acceso público
                 .requestMatchers(
                         "/",
                         "/login",
                         "/usuario/registro",
                         "/usuario/registrar",
+                        "/consultas/**",
                         "/css/**",
                         "/js/**",
                         "/images/**",
                         "/img/**",
                         "/webjars/**"
                 ).permitAll()
-                //Despues de iniciar sesion, cualquier usuario pasa por aqui y se le redirige segun su rol
-                .requestMatchers("/habitacion/inicio").authenticated()
-                //Todas las funciones de habitacion son solo para el ADMIN
-                .requestMatchers("/habitacion/**").hasRole("ADMIN")
+                        
+                        
+                // Redirección por rol después del login
+                .requestMatchers("/inicio-rol").authenticated()
+                        
+                        
+                // SUPERADMIN
+                .requestMatchers(
+                        "/superadmin/**",
+                        "/empresa/**",
+                        "/usuario/listado",
+                        "/usuario/nuevo",
+                        "/usuario/guardar",
+                        "/usuario/modificar",
+                        "/usuario/actualizar",
+                        "/usuario/eliminar"
+                ).hasRole("SUPERADMIN")
+                        
+                        
+                // ADMIN
+                .requestMatchers(
+                        "/habitacion/**",
+                        "/tipoHabitacion/**",
+                        "/servicio/**",
+                        "/usuario/clientes"
+                ).hasRole("ADMIN")
+                        
+                        
+                // CLIENTE
+                .requestMatchers(
+                        "/cliente/**"
+                ).hasRole("CLIENTE")
+                        
+                        
+                // Cualquier otra ruta requiere sesión
                 .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                 .loginPage("/login")
                 .loginProcessingUrl("/login")
-                .defaultSuccessUrl("/habitacion/inicio", true)
+                .defaultSuccessUrl("/inicio-rol", true)
                 .failureUrl("/login?error")
                 .permitAll()
                 )

@@ -1,52 +1,108 @@
 package com.hotel.controller;
 
+import com.hotel.domain.Usuario;
 import com.hotel.service.EmpresaService;
 import com.hotel.service.ServicioService;
+import com.hotel.service.UsuarioService;
+import java.security.Principal;
+import java.util.Collections;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.server.ResponseStatusException;
 
 @Controller
 public class IndexController {
 
-    // Las últimas versiones de Spring, recomiendan utilziar final y contructor en lugar de @autowired
     private final EmpresaService empresaService;
     private final ServicioService servicioService;
+    private final UsuarioService usuarioService;
 
-    // (Spring inyecta automáticamente)
-    public IndexController(EmpresaService empresaService, ServicioService servicioService) {
+    public IndexController(
+            EmpresaService empresaService,
+            ServicioService servicioService,
+            UsuarioService usuarioService) {
+
         this.empresaService = empresaService;
         this.servicioService = servicioService;
+        this.usuarioService = usuarioService;
     }
 
     @GetMapping("/")
     public String cargarPaginaInicio(Model model) {
-        var lista = empresaService.getEmpresas(true);
-        model.addAttribute("empresas", lista);
-        var servicios = servicioService.getServicios(true);
-        model.addAttribute("servicios", servicios);
+
+        model.addAttribute(
+                "empresas",
+                empresaService.getEmpresas(true));
+
+        model.addAttribute(
+                "servicios",
+                servicioService.getServicios(true));
+
         return "index";
     }
 
     @GetMapping("/consultas/{idEmpresa}")
-    public String listado(@PathVariable("idEmpresa") Integer idEmpresa, Model model) {
+    public String listado(
+            @PathVariable Integer idEmpresa,
+            Model model) {
+
         model.addAttribute("idEmpresaActual", idEmpresa);
+
         var empresaOptional = empresaService.getEmpresa(idEmpresa);
+
         if (empresaOptional.isEmpty()) {
-            //Puede ser que no exista el hotel buscado...
-            model.addAttribute("servicios", java.util.Collections.emptyList());
+            model.addAttribute(
+                    "servicios",
+                    Collections.emptyList());
         } else {
-            var empresa = empresaOptional.get();
-            model.addAttribute("servicios", empresa.getServicios());
+            model.addAttribute(
+                    "servicios",
+                    empresaOptional.get().getServicios());
         }
-        var empresas = empresaService.getEmpresas(true);
-        model.addAttribute("empresas", empresas);
+
+        model.addAttribute(
+                "empresas",
+                empresaService.getEmpresas(true));
+
         return "index";
     }
 
     @GetMapping("/login")
     public String mostrarLogin() {
         return "login";
+    }
+
+    @GetMapping("/inicio-rol")
+    public String inicioPorRol(Principal principal) {
+
+        Usuario usuario
+                = usuarioService.getUsuarioPorCorreo(principal.getName());
+
+        if (usuario == null || usuario.getRol() == null) {
+            throw new ResponseStatusException(
+                    HttpStatus.FORBIDDEN,
+                    "No se encontró el usuario o su rol.");
+        }
+
+        String rol = usuario.getRol().getNombre();
+
+        switch (rol) {
+            case "SUPERADMIN":
+                return "redirect:/superadmin/dashboard";
+
+            case "ADMIN":
+                return "redirect:/habitacion/inicio";
+
+            case "CLIENTE":
+                return "redirect:/cliente/inicio";
+
+            default:
+                throw new ResponseStatusException(
+                        HttpStatus.FORBIDDEN,
+                        "El usuario no tiene un rol válido.");
+        }
     }
 }

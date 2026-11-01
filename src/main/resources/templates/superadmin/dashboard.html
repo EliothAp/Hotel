@@ -2,9 +2,30 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
     <head th:replace="~{empresa/fragmentos :: head}"></head>
-    <body>
-        <header th:replace="~{empresa/fragmentos :: encabezado}"></header>
 
+    <body>
+        <style>
+            body {
+                min-height: 100vh;
+                background-image:
+                    linear-gradient(
+                    rgba(0, 0, 0, 0.40),
+                    rgba(0, 0, 0, 0.50)
+                    ),
+                    url('/img/fondo-superadmin.jpg');
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-attachment: fixed;
+            }
+
+            .tarjeta-resumen,
+            .card {
+                background-color: rgba(255, 255, 255, 0.94);
+            }
+        </style>
+
+        <header th:replace="~{empresa/fragmentos :: encabezado}"></header>
         <!-- Bienvenida -->
         <section class="container py-4">
             <h2 class="texto-hotel mb-1">[[#{superadmin.bienvenida}]]</h2>
