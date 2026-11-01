@@ -1,0 +1,35 @@
+/* Colores del Sistema Hotel (verde oscuro). Agregar al final de estilos.css */
+.bg-hotel {
+    background-color: #174b22 !important;
+}
+.bg-hotel-claro {
+    background-color: #e4ebe1 !important;
+    color: #123b16;
+}
+.fondo-hotel {
+    background-color: #e4ebe1 !important;
+}
+.text-hotel {
+    color: #174b22 !important;
+}
+.btn-hotel {
+    background-color: #123b16;
+    border-color: #123b16;
+    color: #ffffff;
+    border-radius: 50rem;
+}
+.btn-hotel:hover {
+    background-color: #174b22;
+    border-color: #174b22;
+    color: #ffffff;
+}
+.btn-outline-hotel {
+    background-color: #ffffff;
+    border: 1px solid #174b22;
+    color: #174b22;
+    border-radius: 50rem;
+}
+.btn-outline-hotel:hover {
+    background-color: #174b22;
+    color: #ffffff;
+}

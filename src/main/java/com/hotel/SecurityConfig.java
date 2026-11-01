@@ -26,12 +26,16 @@ public class SecurityConfig {
                         "/img/**",
                         "/webjars/**"
                 ).permitAll()
+                //Despues de iniciar sesion, cualquier usuario pasa por aqui y se le redirige segun su rol
+                .requestMatchers("/habitacion/inicio").authenticated()
+                //Todas las funciones de habitacion son solo para el ADMIN
+                .requestMatchers("/habitacion/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                 .loginPage("/login")
                 .loginProcessingUrl("/login")
-                .defaultSuccessUrl("/", true)
+                .defaultSuccessUrl("/habitacion/inicio", true)
                 .failureUrl("/login?error")
                 .permitAll()
                 )

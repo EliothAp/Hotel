@@ -24,20 +24,20 @@ document.addEventListener('DOMContentLoaded', function () {
         id.value = '';
         rutaImagen.value = '';
         titulo.textContent =button.getAttribute('data-titulo') || '';
-        header.classList.remove('bg-info','bg-warning','text-white');
+        header.classList.remove('bg-hotel','bg-hotel-claro','text-white');
         if (modo === 'editar') {
             id.value =button.getAttribute('data-id') || '';
             tipoHabitacion.value =button.getAttribute('data-tipo-habitacion-id') || '';
             numero.value =button.getAttribute('data-numero') || '';
             estado.value =button.getAttribute('data-estado') || '';
             rutaImagen.value =button.getAttribute('data-imagen') || '';
-            header.classList.add('bg-warning');
+            header.classList.add('bg-hotel-claro');
         } else {
             // Selecciona el primer tipo de habitacion disponible
             if (tipoHabitacion.options.length > 0) {
                 tipoHabitacion.selectedIndex = 0;
             }
-            header.classList.add('bg-info','text-white');
+            header.classList.add('bg-hotel','text-white');
         }
     });
 });

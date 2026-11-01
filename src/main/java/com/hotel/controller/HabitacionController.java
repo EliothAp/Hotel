@@ -4,6 +4,7 @@ import com.hotel.domain.Habitacion;
 import com.hotel.service.HabitacionService;
 import com.hotel.service.TipoHabitacionService;
 import jakarta.validation.Valid;
+import java.security.Principal;
 import java.util.Locale;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +28,16 @@ public class HabitacionController {
     private final HabitacionService habitacionService;
     private final TipoHabitacionService tipoHabitacionService;
     private final MessageSource messageSource;
+
+    //Despues de iniciar sesion: el ADMIN va al listado de habitaciones de su hotel, los demas al inicio
+    @GetMapping("/inicio")
+    public String inicio(Principal principal) {
+        var usuario = habitacionService.getUsuario(principal.getName());
+        if (usuario.getRol().getNombre().equals("ADMIN")) {
+            return "redirect:/habitacion/listado?idEmpresa=" + usuario.getEmpresa().getIdEmpresa();
+        }
+        return "redirect:/";
+    }
 
     @GetMapping("/listado")
     public String listado(@RequestParam Integer idEmpresa, Model model) {
