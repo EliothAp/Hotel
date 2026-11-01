@@ -29,12 +29,8 @@ public class SecurityConfig {
                         "/img/**",
                         "/webjars/**"
                 ).permitAll()
-                        
-                        
                 // Redirección por rol después del login
                 .requestMatchers("/inicio-rol").authenticated()
-                        
-                        
                 // SUPERADMIN
                 .requestMatchers(
                         "/superadmin/**",
@@ -46,23 +42,18 @@ public class SecurityConfig {
                         "/usuario/actualizar",
                         "/usuario/eliminar"
                 ).hasRole("SUPERADMIN")
-                        
-                        
                 // ADMIN
                 .requestMatchers(
+                        "/admin/**",
                         "/habitacion/**",
                         "/tipoHabitacion/**",
                         "/servicio/**",
                         "/usuario/clientes"
                 ).hasRole("ADMIN")
-                        
-                        
                 // CLIENTE
                 .requestMatchers(
                         "/cliente/**"
                 ).hasRole("CLIENTE")
-                        
-                        
                 // Cualquier otra ruta requiere sesión
                 .anyRequest().authenticated()
                 )

@@ -60,6 +60,11 @@ public class HabitacionService {
     }
 
     @Transactional(readOnly = true)
+    public long contarPorEstado(Integer idEmpresa, String estado) {
+        return habitacionRepository.countByEmpresaIdEmpresaAndEstado(idEmpresa, estado);
+    }
+
+    @Transactional(readOnly = true)
     public List<Habitacion> consultaLibres(Integer idEmpresa, Integer personas,
             LocalDate fechaEntrada, LocalDate fechaSalida) {
         return habitacionRepository.consultaLibres(idEmpresa, personas, fechaEntrada, fechaSalida);

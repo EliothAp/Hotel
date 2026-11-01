@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{admin/fragmentos :: head}"></head>
+
+    <body>
+        <style>
+            body {
+                min-height: 100vh;
+                background-image:
+                    linear-gradient(
+                    rgba(0, 0, 0, 0.40),
+                    rgba(0, 0, 0, 0.50)
+                    ),
+                    url('/img/fondo-admin.jpg');
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-attachment: fixed;
+            }
+
+            .tarjeta-resumen,
+            .card {
+                background-color: rgba(255, 255, 255, 0.94);
+            }
+        </style>
+
+        <header th:replace="~{admin/fragmentos :: encabezado}"></header>
+        <!-- Bienvenida -->
+        <section class="container py-4">
+            <h2 class="texto-hotel mb-1">[[#{admin.bienvenida}]] - [[${empresa.nombre}]]</h2>
+            <p class="text-muted mb-0">[[#{admin.descripcion}]]</p>
+        </section>
+
+        <!-- Resumen general de su hotel -->
+        <section class="container">
+            <div class="row g-3">
+                <div class="col-6 col-md-4 col-lg-2">
+                    <div class="card text-center shadow-sm tarjeta-resumen">
+                        <div class="card-body">
+                            <i class="fa-solid fa-bed fa-2x texto-hotel"></i>
+                            <h3 class="mt-2 mb-0">[[${totalHabitaciones}]]</h3>
+                            <small class="text-muted">[[#{admin.totalHabitaciones}]]</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 col-lg-2">
+                    <div class="card text-center shadow-sm tarjeta-resumen">
+                        <div class="card-body">
+                            <i class="fa-solid fa-circle-check fa-2x text-success"></i>
+                            <h3 class="mt-2 mb-0">[[${totalDisponibles}]]</h3>
+                            <small class="text-muted">[[#{admin.disponibles}]]</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 col-lg-2">
+                    <div class="card text-center shadow-sm tarjeta-resumen">
+                        <div class="card-body">
+                            <i class="fa-solid fa-key fa-2x text-danger"></i>
+                            <h3 class="mt-2 mb-0">[[${totalOcupadas}]]</h3>
+                            <small class="text-muted">[[#{admin.ocupadas}]]</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 col-lg-2">
+                    <div class="card text-center shadow-sm tarjeta-resumen">
+                        <div class="card-body">
+                            <i class="fa-solid fa-screwdriver-wrench fa-2x text-secondary"></i>
+                            <h3 class="mt-2 mb-0">[[${totalMantenimiento}]]</h3>
+                            <small class="text-muted">[[#{admin.mantenimiento}]]</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 col-lg-2">
+                    <div class="card text-center shadow-sm tarjeta-resumen">
+                        <div class="card-body">
+                            <i class="fa-solid fa-layer-group fa-2x texto-hotel"></i>
+                            <h3 class="mt-2 mb-0">[[${totalTiposHabitacion}]]</h3>
+                            <small class="text-muted">[[#{admin.totalTipos}]]</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 col-lg-2">
+                    <div class="card text-center shadow-sm tarjeta-resumen">
+                        <div class="card-body">
+                            <i class="fa-solid fa-users fa-2x text-primary"></i>
+                            <h3 class="mt-2 mb-0">[[${totalClientes}]]</h3>
+                            <small class="text-muted">[[#{admin.totalClientes}]]</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Habitaciones de su hotel (datos reales de MySQL) -->
+        <section class="container py-4">
+            <div class="card shadow-sm">
+                <div class="card-header encabezado-seccion text-white d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">[[#{admin.habitacionesRegistradas}]]</h4>
+                    <a th:href="@{/habitacion/listado(idEmpresa=${empresa.idEmpresa})}" class="btn btn-light btn-sm">
+                        <i class="fa-solid fa-pen-to-square"></i> [[#{admin.gestionarHabitaciones}]]
+                    </a>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive" th:if="${habitaciones != null and !habitaciones.empty}">
+                        <table class="table table-hover align-middle">
+                            <thead>
+                                <tr>
+                                    <th>[[#{habitacion.numero}]]</th>
+                                    <th>[[#{habitacion.tipo}]]</th>
+                                    <th>[[#{habitacion.estado}]]</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="h : ${habitaciones}">
+                                    <td><strong>[[${h.numero}]]</strong></td>
+                                    <td th:text="${h.tipoHabitacion != null ? h.tipoHabitacion.nombre : ''}"></td>
+                                    <td>
+                                        <span th:if="${h.estado == 'DISPONIBLE'}" class="badge bg-success">[[#{habitacion.estado.disponible}]]</span>
+                                        <span th:if="${h.estado == 'OCUPADA'}" class="badge bg-danger">[[#{habitacion.estado.ocupada}]]</span>
+                                        <span th:if="${h.estado == 'MANTENIMIENTO'}" class="badge bg-secondary">[[#{habitacion.estado.mantenimiento}]]</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="text-center p-2" th:if="${habitaciones == null or habitaciones.empty}">
+                        <span>[[#{lista.vacia}]]</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tipos de habitacion de su hotel -->
+        <section class="container pb-4">
+            <div class="card shadow-sm">
+                <div class="card-header encabezado-seccion text-white d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0"><i class="fa-solid fa-layer-group"></i> [[#{admin.tiposRegistrados}]]</h4>
+                    <a th:href="@{/tipoHabitacion/listado(idEmpresa=${empresa.idEmpresa})}" class="btn btn-light btn-sm">
+                        <i class="fa-solid fa-pen-to-square"></i> [[#{admin.gestionarTipos}]]
+                    </a>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-6 col-lg-4" th:each="t : ${tiposHabitacion}">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title texto-hotel">[[${t.nombre}]]</h5>
+                                    <p class="mb-1"><i class="fa-solid fa-user-group text-muted"></i> [[${t.capacidad}]]</p>
+                                    <p class="mb-0"><i class="fa-solid fa-money-bill text-muted"></i> [[${#numbers.formatCurrency(t.precioNoche)}]]</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center p-2" th:if="${tiposHabitacion == null or tiposHabitacion.empty}">
+                        <span>[[#{lista.vacia}]]</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer th:replace="~{admin/fragmentos :: pie}"></footer>
+    </body>
+</html>

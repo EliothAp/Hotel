@@ -94,7 +94,7 @@ public class IndexController {
                 return "redirect:/superadmin/dashboard";
 
             case "ADMIN":
-                return "redirect:/habitacion/inicio";
+                return "redirect:/admin/dashboard";
 
             case "CLIENTE":
                 return "redirect:/cliente/inicio";

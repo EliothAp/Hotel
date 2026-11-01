@@ -13,22 +13,25 @@ public interface HabitacionRepository extends JpaRepository<Habitacion, Integer>
     //Consulta derivada que recupera las habitaciones de un solo hotel (empresa)
     public List<Habitacion> findByEmpresaIdEmpresa(Integer idEmpresa);
 
-    //Consulta JPQL que recupera las habitaciones libres de un hotel para un rango de fechas y una cantidad de personas:
-    //no estan en mantenimiento, caben las personas y no tienen una reserva (no cancelada) que choque con las fechas
-    @Query("""
-            SELECT h FROM Habitacion h
-            WHERE h.empresa.idEmpresa = ?1
-            AND h.estado = 'DISPONIBLE'
-            AND h.tipoHabitacion.capacidad >= ?2
-            AND NOT EXISTS (
-                SELECT r FROM Reserva r
-                WHERE r.habitacion.idHabitacion = h.idHabitacion
-                AND r.estado <> 'CANCELADA'
-                AND r.fechaEntrada < ?4
-                AND r.fechaSalida > ?3
-            )
-            """)
+    @Query(nativeQuery = true, value = """
+        SELECT h.*
+        FROM habitacion h
+        JOIN tipo_habitacion t ON t.id_tipo_habitacion = h.id_tipo_habitacion
+        WHERE h.id_empresa = ?1
+          AND h.estado = 'DISPONIBLE'
+          AND t.capacidad >= ?2
+          AND h.id_habitacion NOT IN (
+              SELECT r.id_habitacion
+              FROM reserva r
+              WHERE r.estado <> 'CANCELADA'
+                AND r.fecha_entrada < ?4
+                AND r.fecha_salida > ?3
+          )
+        ORDER BY h.numero
+        """)
     public List<Habitacion> consultaLibres(Integer idEmpresa, Integer personas,
             LocalDate fechaEntrada, LocalDate fechaSalida);
+
+    public long countByEmpresaIdEmpresaAndEstado(Integer idEmpresa, String estado);
 
 }
