@@ -7,7 +7,7 @@
         <meta name="viewport"
               content="width=device-width, initial-scale=1.0"/>
 
-        <title>Administración de Usuarios - Hotel</title>
+        <title th:text="#{usuario.tituloAdministracion}">Administración de Usuarios - Hotel</title>
 
         <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"
               rel="stylesheet"/>
@@ -305,7 +305,7 @@
                     <h3 class="nombre-hotel">
 
                         <i class="fas fa-hotel"></i>
-                        Sistema Hotel
+                        <span th:text="#{aplicacion.titulo}">Sistema Hotel</span>
 
                     </h3>
 
@@ -313,7 +313,7 @@
                        class="boton-inicio">
 
                         <i class="fas fa-home"></i>
-                        Inicio
+                        <span th:text="#{plantilla.hoteles}">Inicio</span>
 
                     </a>
 
@@ -334,7 +334,7 @@
                 <h5 class="titulo-menu">
 
                     <i class="fas fa-user-cog"></i>
-                    Administración de Usuarios
+                    <span th:text="#{usuario.tituloAdministracion}">Administración de Usuarios</span>
 
                 </h5>
 
@@ -344,7 +344,7 @@
                        class="enlace-menu">
 
                         <i class="fas fa-users"></i>
-                        Listado de Usuarios
+                        <span th:text="#{usuario.listado}">Listado de Usuarios</span>
 
                     </a>
 
@@ -352,7 +352,7 @@
                        class="enlace-menu activo">
 
                         <i class="fas fa-user-plus"></i>
-                        Nuevo Administrador
+                        <span th:text="#{usuario.nuevoAdministrador}">Nuevo Administrador</span>
 
                     </a>
 
@@ -360,7 +360,7 @@
                        class="enlace-menu">
 
                         <i class="fas fa-address-card"></i>
-                        Registro de clientes
+                        <span th:text="#{usuario.registro}">Registro de clientes</span>
 
                     </a>
 
@@ -368,7 +368,7 @@
                        class="enlace-menu">
 
                         <i class="fas fa-home"></i>
-                        Volver al inicio
+                        <span th:text="#{usuario.regresar}">Volver al inicio</span>
 
                     </a>
 
@@ -388,7 +388,7 @@
                         th:if="${usuario.idUsuario == null}">
 
                         <i class="fas fa-user-plus"></i>
-                        Registrar Administrador
+                        <span th:text="#{usuario.registrarAdministrador}">Registrar Administrador</span>
 
                     </h2>
 
@@ -396,11 +396,12 @@
                         th:unless="${usuario.idUsuario == null}">
 
                         <i class="fas fa-user-edit"></i>
-                        Modificar Administrador
+                        <span th:text="#{usuario.modificarAdministrador}">Modificar Administrador</span>
 
                     </h2>
 
-                    <p class="descripcion-principal">
+                    <p class="descripcion-principal"
+                       th:text="#{usuario.descripcionAdministracion}">
 
                         Administración de cuentas del sistema hotelero.
 
@@ -431,7 +432,7 @@
                         <h5 class="titulo-formulario">
 
                             <i class="fas fa-user text-success"></i>
-                            Datos del Administrador
+                            <span th:text="#{usuario.datosAdministrador}">Datos del Administrador</span>
 
                         </h5>
 
@@ -456,7 +457,8 @@
                         <div class="mb-3">
 
                             <label for="nombre"
-                                   class="form-label">
+                                   class="form-label"
+                                   th:text="#{usuario.nombre}">
 
                                 Nombre completo
 
@@ -468,7 +470,7 @@
                                    name="nombre"
                                    th:value="${usuario.nombre}"
                                    maxlength="50"
-                                   placeholder="Ingrese el nombre completo"
+                                   th:placeholder="#{usuario.nombrePlaceholder}"
                                    required/>
 
                         </div>
@@ -478,7 +480,8 @@
                         <div class="mb-3">
 
                             <label for="correo"
-                                   class="form-label">
+                                   class="form-label"
+                                   th:text="#{usuario.correo}">
 
                                 Correo electrónico
 
@@ -490,7 +493,7 @@
                                    name="correo"
                                    th:value="${usuario.correo}"
                                    maxlength="80"
-                                   placeholder="ejemplo@correo.com"
+                                   th:placeholder="#{usuario.correoPlaceholder}"
                                    required/>
 
                         </div>
@@ -500,7 +503,8 @@
                         <div class="mb-3">
 
                             <label for="telefono"
-                                   class="form-label">
+                                   class="form-label"
+                                   th:text="#{usuario.telefono}">
 
                                 Teléfono
 
@@ -513,7 +517,7 @@
                                    th:value="${usuario.telefono}"
                                    maxlength="8"
                                    pattern="[0-9]{8}"
-                                   placeholder="88888888"
+                                   th:placeholder="#{usuario.telefonoPlaceholder}"
                                    required/>
 
                         </div>
@@ -524,7 +528,8 @@
                              th:if="${usuario.idUsuario == null}">
 
                             <label for="contrasena"
-                                   class="form-label">
+                                   class="form-label"
+                                   th:text="#{usuario.contrasena}">
 
                                 Contraseña
 
@@ -535,11 +540,12 @@
                                    id="contrasena"
                                    name="contrasena"
                                    minlength="8"
-                                   placeholder="Mínimo 8 caracteres"
+                                   th:placeholder="#{usuario.contrasenaPlaceholder}"
                                    autocomplete="new-password"
                                    required/>
 
-                            <div class="form-text">
+                            <div class="form-text"
+                                 th:text="#{usuario.contrasenaInfo}">
 
                                 La contraseña debe contener
                                 al menos 8 caracteres.
@@ -553,7 +559,8 @@
                         <div class="mb-4">
 
                             <label for="idEmpresa"
-                                   class="form-label">
+                                   class="form-label"
+                                   th:text="#{usuario.hotelAsignado}">
 
                                 Hotel asignado
 
@@ -564,7 +571,8 @@
                                     name="idEmpresa"
                                     required>
 
-                                <option value="">
+                                <option value=""
+                                        th:text="#{usuario.seleccionarHotel}">
 
                                     Seleccione un hotel
 
@@ -582,7 +590,8 @@
 
                             </select>
 
-                            <div class="form-text">
+                            <div class="form-text"
+                                 th:text="#{usuario.hotelAdministradorInfo}">
 
                                 Cada administrador estará
                                 asociado a un hotel.
@@ -597,8 +606,10 @@
 
                             <i class="fas fa-info-circle"></i>
 
-                            El usuario será registrado
-                            con el rol de Administrador.
+                            <span th:text="#{usuario.rolAdministradorInfo}">
+                                El usuario será registrado
+                                con el rol de Administrador.
+                            </span>
 
                         </div>
 
@@ -610,7 +621,7 @@
                                class="boton-secundario">
 
                                 <i class="fas fa-times"></i>
-                                Cancelar
+                                <span th:text="#{usuario.cancelar}">Cancelar</span>
 
                             </a>
 
@@ -619,13 +630,15 @@
 
                                 <i class="fas fa-save"></i>
 
-                                <span th:if="${usuario.idUsuario == null}">
+                                <span th:if="${usuario.idUsuario == null}"
+                                      th:text="#{usuario.guardarAdministrador}">
 
                                     Guardar Administrador
 
                                 </span>
 
-                                <span th:unless="${usuario.idUsuario == null}">
+                                <span th:unless="${usuario.idUsuario == null}"
+                                      th:text="#{usuario.actualizarAdministrador}">
 
                                     Actualizar Administrador
 

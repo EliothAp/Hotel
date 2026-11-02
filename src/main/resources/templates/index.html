@@ -7,14 +7,14 @@
         <meta name="viewport"
               content="width=device-width, initial-scale=1.0"/>
 
-        <title>Inicio - Sistema Hotel</title>
+        <title th:text="#{inicio.titulo}">Inicio - Sistema Hotel</title>
 
         <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"
               rel="stylesheet"/>
 
         <link th:href="@{/webjars/font-awesome/css/all.css}"
               rel="stylesheet"/>
-        
+
         <style>
 
             body {
@@ -164,18 +164,26 @@
         <!-- Encabezado -->
 
         <header class="encabezado-hotel">
-
             <div class="container-fluid">
 
-                <h3 class="nombre-hotel">
+                <div class="d-flex justify-content-between align-items-center">
 
-                    <i class="fas fa-hotel"></i>
-                    Sistema Hotel
+                    <h3 class="nombre-hotel">
+                        <i class="fas fa-hotel"></i>
+                        <span th:text="#{aplicacion.titulo}">Sistema Hotel</span>
+                    </h3>
 
-                </h3>
+                    <div>
+                        <a th:href="@{/(lang=es)}"
+                           class="btn btn-outline-success btn-sm">ES</a>
+
+                        <a th:href="@{/(lang=en)}"
+                           class="btn btn-outline-success btn-sm">EN</a>
+                    </div>
+
+                </div>
 
             </div>
-
         </header>
 
         <!-- Contenido principal -->
@@ -188,11 +196,10 @@
                     <i class="fas fa-hotel"></i>
                 </div>
 
-                <h1 class="titulo-inicio">
+                <h1 class="titulo-inicio" th:text="#{inicio.bienvenida}">
                     Bienvenido a Sistema Hotel
                 </h1>
-
-                <p class="descripcion-inicio">
+                <p class="descripcion-inicio" th:text="#{inicio.descripcion}">
                     Descubrí nuestros hoteles y disfrutá
                     de una experiencia cómoda y segura.
                     Registrate o iniciá sesión para comenzar.
@@ -205,7 +212,7 @@
                        class="boton-principal">
 
                         <i class="fas fa-user-plus"></i>
-                        Registrarse
+                        <span th:text="#{inicio.registrarse}">Registrarse</span>
 
                     </a>
 
@@ -213,7 +220,7 @@
                        class="boton-secundario">
 
                         <i class="fas fa-sign-in-alt"></i>
-                        Iniciar sesión
+                        <span th:text="#{inicio.iniciarSesion}">Iniciar sesión</span>
 
                     </a>
 

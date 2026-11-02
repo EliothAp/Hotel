@@ -7,7 +7,7 @@
         <meta name="viewport"
               content="width=device-width, initial-scale=1.0"/>
 
-        <title>Registro de Clientes - Hotel</title>
+        <title th:text="#{usuario.tituloRegistro}">Registro de Clientes - Hotel</title>
 
         <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"
               rel="stylesheet"/>
@@ -217,7 +217,7 @@
                     <h3 class="nombre-hotel">
 
                         <i class="fas fa-hotel"></i>
-                        Sistema Hotel
+                        <span th:text="#{aplicacion.titulo}">Sistema Hotel</span>
 
                     </h3>
 
@@ -225,7 +225,7 @@
                        class="boton-inicio">
 
                         <i class="fas fa-home"></i>
-                        Inicio
+                        <span th:text="#{plantilla.hoteles}">Inicio</span>
 
                     </a>
 
@@ -246,11 +246,12 @@
                 <h2 class="titulo-registro">
 
                     <i class="fas fa-user-plus"></i>
-                    Registro de Clientes
+                    <span th:text="#{usuario.registro}">Registro de Clientes</span>
 
                 </h2>
 
-                <p class="descripcion-registro">
+                <p class="descripcion-registro"
+                   th:text="#{usuario.descripcionRegistro}">
 
                     Creá tu cuenta y empezá a disfrutar
                     de nuestros servicios hoteleros.
@@ -291,7 +292,8 @@
                     <div class="mb-3">
 
                         <label for="nombre"
-                               class="form-label">
+                               class="form-label"
+                               th:text="#{usuario.nombre}">
 
                             Nombre completo
 
@@ -302,7 +304,7 @@
                                id="nombre"
                                name="nombre"
                                maxlength="50"
-                               placeholder="Ingrese su nombre completo"
+                               th:placeholder="#{usuario.nombrePlaceholder}"
                                autocomplete="name"
                                required/>
 
@@ -313,7 +315,8 @@
                     <div class="mb-3">
 
                         <label for="correo"
-                               class="form-label">
+                               class="form-label"
+                               th:text="#{usuario.correo}">
 
                             Correo electrónico
 
@@ -324,11 +327,12 @@
                                id="correo"
                                name="correo"
                                maxlength="80"
-                               placeholder="ejemplo@correo.com"
+                               th:placeholder="#{usuario.correoPlaceholder}"
                                autocomplete="email"
                                required/>
 
-                        <div class="form-text">
+                        <div class="form-text"
+                             th:text="#{usuario.correoUnico}">
 
                             El correo debe ser único
                             para cada cuenta.
@@ -342,7 +346,8 @@
                     <div class="mb-3">
 
                         <label for="telefono"
-                               class="form-label">
+                               class="form-label"
+                               th:text="#{usuario.telefono}">
 
                             Teléfono
 
@@ -355,11 +360,12 @@
                                maxlength="8"
                                minlength="8"
                                pattern="[0-9]{8}"
-                               placeholder="88888888"
+                               th:placeholder="#{usuario.telefonoPlaceholder}"
                                autocomplete="tel"
                                required/>
 
-                        <div class="form-text">
+                        <div class="form-text"
+                             th:text="#{usuario.telefonoAyuda}">
 
                             Ingrese 8 números sin espacios ni guiones.
 
@@ -372,7 +378,8 @@
                     <div class="mb-3">
 
                         <label for="contrasena"
-                               class="form-label">
+                               class="form-label"
+                               th:text="#{usuario.contrasena}">
 
                             Contraseña
 
@@ -383,11 +390,12 @@
                                id="contrasena"
                                name="contrasena"
                                minlength="8"
-                               placeholder="Mínimo 8 caracteres"
+                               th:placeholder="#{usuario.contrasenaPlaceholder}"
                                autocomplete="new-password"
                                required/>
 
-                        <div class="form-text">
+                        <div class="form-text"
+                             th:text="#{usuario.contrasenaAyuda}">
 
                             La contraseña debe contener
                             al menos 8 caracteres.
@@ -401,7 +409,8 @@
                     <div class="mb-4">
 
                         <label for="idEmpresa"
-                               class="form-label">
+                               class="form-label"
+                               th:text="#{usuario.seleccionarHotel}">
 
                             Seleccione el hotel
 
@@ -413,7 +422,8 @@
                                 required>
 
                             <option value=""
-                                    selected="selected">
+                                    selected="selected"
+                                    th:text="#{usuario.seleccionarHotel}">
 
                                 Seleccione un hotel
 
@@ -429,7 +439,8 @@
 
                         </select>
 
-                        <div class="form-text">
+                        <div class="form-text"
+                             th:text="#{usuario.cuentaHotelInfo}">
 
                             Su cuenta quedará asociada
                             al hotel seleccionado.
@@ -444,9 +455,11 @@
 
                         <i class="fas fa-info-circle"></i>
 
-                        Al registrarse, su cuenta
-                        tendrá el rol de Cliente
-                        en el hotel seleccionado.
+                        <span th:text="#{usuario.cuentaClienteInfo}">
+                            Al registrarse, su cuenta
+                            tendrá el rol de Cliente
+                            en el hotel seleccionado.
+                        </span>
 
                     </div>
 
@@ -458,7 +471,7 @@
                                 class="boton-registro">
 
                             <i class="fas fa-user-check"></i>
-                            Registrarme
+                            <span th:text="#{usuario.registrarme}">Registrarme</span>
 
                         </button>
 
@@ -471,7 +484,8 @@
                 <div class="text-center mt-4">
 
                     <p class="mb-2"
-                       style="font-size: 13px; color: #777777;">
+                       style="font-size: 13px; color: #777777;"
+                       th:text="#{usuario.yaTieneCuenta}">
 
                         ¿Ya tenés una cuenta?
 
@@ -481,7 +495,7 @@
                        class="boton-volver">
 
                         <i class="fas fa-sign-in-alt"></i>
-                        Iniciar sesión
+                        <span th:text="#{login.boton}">Iniciar sesión</span>
 
                     </a>
 
@@ -495,7 +509,7 @@
                        class="boton-volver">
 
                         <i class="fas fa-arrow-left"></i>
-                        Volver al inicio
+                        <span th:text="#{usuario.regresar}">Volver al inicio</span>
 
                     </a>
 

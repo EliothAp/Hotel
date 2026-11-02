@@ -7,7 +7,7 @@
         <meta name="viewport"
               content="width=device-width, initial-scale=1.0"/>
 
-        <title>Iniciar Sesión - Sistema Hotel</title>
+        <title th:text="#{login.tituloPagina}">Sign In - Hotel System</title>
 
         <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"
               rel="stylesheet"/>
@@ -200,7 +200,7 @@
                     <h3 class="nombre-hotel">
 
                         <i class="fas fa-hotel"></i>
-                        Sistema Hotel
+                        <span th:text="#{aplicacion.titulo}">Sistema Hotel</span>
 
                     </h3>
 
@@ -208,7 +208,7 @@
                        class="boton-inicio">
 
                         <i class="fas fa-home"></i>
-                        Inicio
+                        <span th:text="#{login.inicio}">Inicio</span>
 
                     </a>
 
@@ -229,11 +229,12 @@
                 <h2 class="titulo-login">
 
                     <i class="fas fa-sign-in-alt"></i>
-                    Iniciar Sesión
+                    <span th:text="#{login.titulo}">Iniciar Sesión</span>
 
                 </h2>
 
-                <p class="descripcion-login">
+                <p class="descripcion-login"
+                   th:text="#{login.descripcion}">
 
                     Ingresá tus credenciales para acceder
                     a tu cuenta de Sistema Hotel.
@@ -248,7 +249,7 @@
 
                     <i class="fas fa-exclamation-circle"></i>
 
-                    Correo electrónico o contraseña incorrectos.
+                    <span th:text="#{login.error}">Correo electrónico o contraseña incorrectos.</span>
 
                 </div>
 
@@ -260,7 +261,7 @@
 
                     <i class="fas fa-check-circle"></i>
 
-                    Cerraste sesión correctamente.
+                    <span th:text="#{login.cerrada}">Cerraste sesión correctamente.</span>
 
                 </div>
 
@@ -274,7 +275,8 @@
                     <div class="mb-3">
 
                         <label for="username"
-                               class="form-label">
+                               class="form-label"
+                               th:text="#{login.correo}">
 
                             Correo electrónico
 
@@ -284,7 +286,7 @@
                                class="form-control"
                                id="username"
                                name="username"
-                               placeholder="ejemplo@correo.com"
+                               th:placeholder="#{login.correoPlaceholder}"
                                autocomplete="username"
                                required/>
 
@@ -295,7 +297,8 @@
                     <div class="mb-4">
 
                         <label for="password"
-                               class="form-label">
+                               class="form-label"
+                               th:text="#{login.contrasena}">
 
                             Contraseña
 
@@ -305,7 +308,7 @@
                                class="form-control"
                                id="password"
                                name="password"
-                               placeholder="Ingrese su contraseña"
+                               th:placeholder="#{login.contrasenaPlaceholder}"
                                autocomplete="current-password"
                                required/>
 
@@ -319,7 +322,7 @@
                                 class="boton-login">
 
                             <i class="fas fa-sign-in-alt"></i>
-                            Iniciar Sesión
+                            <span th:text="#{login.boton}">Iniciar Sesión</span>
 
                         </button>
 
@@ -332,7 +335,8 @@
                 <div class="text-center mt-4">
 
                     <p class="mb-2"
-                       style="font-size: 13px; color: #777777;">
+                       style="font-size: 13px; color: #777777;"
+                       th:text="#{login.registro}">
 
                         ¿Todavía no tenés una cuenta?
 
@@ -342,7 +346,7 @@
                        class="enlace-registro">
 
                         <i class="fas fa-user-plus"></i>
-                        Registrate aquí
+                        <span th:text="#{login.registrarse}">Registrate aquí</span>
 
                     </a>
 

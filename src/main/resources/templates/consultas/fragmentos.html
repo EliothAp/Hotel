@@ -27,7 +27,7 @@
                         <div class="card-footer bg-white d-flex justify-content-between align-items-center">
                             <div class="fw-bold">
                                 <span class="text-hotel h5" th:text="${#numbers.formatCurrency(h.tipoHabitacion.precioNoche)}">$99.99</span>
-                                <span class="badge bg-hotel ms-2" th:text="${h.tipoHabitacion.capacidad} + ' personas'"></span>
+                                <span class="badge bg-hotel ms-2" th:text="${h.tipoHabitacion.capacidad} + ' ' + #{buscar.personas}"></span>
                             </div>
                         </div>
                     </div>

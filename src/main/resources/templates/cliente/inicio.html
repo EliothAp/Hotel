@@ -7,7 +7,7 @@
         <meta name="viewport"
               content="width=device-width, initial-scale=1.0"/>
 
-        <title>Habitaciones del hotel</title>
+        <title th:text="#{cliente.tituloPagina}">Habitaciones del hotel</title>
 
         <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"
               rel="stylesheet"/>
@@ -49,14 +49,16 @@
                         Nombre del hotel
                     </h3>
 
-                    <small class="text-muted">
+                    <small class="text-muted"
+                           th:text="#{cliente.sistema}">
                         Sistema Hotel
                     </small>
                 </div>
 
                 <form th:action="@{/logout}" method="post">
                     <button type="submit"
-                            class="btn btn-outline-danger">
+                            class="btn btn-outline-danger"
+                            th:text="#{cliente.cerrarSesion}">
                         Cerrar sesión
                     </button>
                 </form>
@@ -68,25 +70,28 @@
 
             <section class="mb-4">
                 <h1 class="h3">
-                    ¡Bienvenido,
+                    <span th:text="#{cliente.bienvenida}">¡Bienvenido,</span>
                     <span th:text="${usuario.nombre}">
                         Cliente
                     </span>!
                 </h1>
 
-                <p class="text-muted">
+                <p class="text-muted"
+                   th:text="#{cliente.descripcion}">
                     Estas son las habitaciones de tu hotel.
                 </p>
             </section>
 
             <section class="mb-5">
 
-                <h2 class="h4 mb-3">
+                <h2 class="h4 mb-3"
+                    th:text="#{cliente.catalogo}">
                     Habitaciones disponibles en el catálogo
                 </h2>
 
                 <div th:if="${#lists.isEmpty(habitaciones)}"
-                     class="alert alert-info">
+                     class="alert alert-info"
+                     th:text="#{cliente.sinHabitaciones}">
 
                     Actualmente este hotel no tiene habitaciones
                     registradas.
@@ -104,29 +109,29 @@
                             <div class="card-body">
 
                                 <h3 class="h5 card-title">
-                                    Habitación
+                                    <span th:text="#{cliente.habitacion}">Habitación</span>
                                     <span th:text="${habitacion.numero}">
                                         101
                                     </span>
                                 </h3>
 
                                 <p class="mb-2">
-                                    <strong>Tipo:</strong>
+                                    <strong th:text="#{cliente.tipo}">Tipo:</strong>
                                     <span th:text="${habitacion.tipoHabitacion.nombre}">
                                         Individual
                                     </span>
                                 </p>
 
                                 <p class="mb-2">
-                                    <strong>Capacidad:</strong>
+                                    <strong th:text="#{cliente.capacidad}">Capacidad:</strong>
                                     <span th:text="${habitacion.tipoHabitacion.capacidad}">
                                         2
                                     </span>
-                                    personas
+                                    <span th:text="#{cliente.personas}">personas</span>
                                 </p>
 
                                 <p class="mb-3">
-                                    <strong>Precio por noche:</strong>
+                                    <strong th:text="#{cliente.precioNoche}">Precio por noche:</strong>
                                     ₡<span th:text="${#numbers.formatDecimal(
                                            habitacion.tipoHabitacion.precioNoche,
                                            1, 'COMMA', 2, 'POINT')}">
@@ -135,17 +140,20 @@
                                 </p>
 
                                 <span th:if="${habitacion.estado == 'DISPONIBLE'}"
-                                      class="badge bg-success">
+                                      class="badge bg-success"
+                                      th:text="#{cliente.disponible}">
                                     Disponible
                                 </span>
 
                                 <span th:if="${habitacion.estado == 'OCUPADA'}"
-                                      class="badge bg-danger">
+                                      class="badge bg-danger"
+                                      th:text="#{cliente.ocupada}">
                                     Ocupada
                                 </span>
 
                                 <span th:if="${habitacion.estado == 'MANTENIMIENTO'}"
-                                      class="badge bg-warning text-dark">
+                                      class="badge bg-warning text-dark"
+                                      th:text="#{cliente.mantenimiento}">
                                     En mantenimiento
                                 </span>
 
@@ -162,20 +170,23 @@
             <hr/>
 
             <section>
-                <h2 class="h5">Mi información</h2>
+                <h2 class="h5"
+                    th:text="#{cliente.miInformacion}">
+                    Mi información
+                </h2>
 
                 <p>
-                    <strong>Nombre:</strong>
+                    <strong th:text="#{cliente.nombre}">Nombre:</strong>
                     <span th:text="${usuario.nombre}"></span>
                 </p>
 
                 <p>
-                    <strong>Correo:</strong>
+                    <strong th:text="#{cliente.correo}">Correo:</strong>
                     <span th:text="${usuario.correo}"></span>
                 </p>
 
                 <p>
-                    <strong>Teléfono:</strong>
+                    <strong th:text="#{cliente.telefono}">Teléfono:</strong>
                     <span th:text="${usuario.telefono}"></span>
                 </p>
             </section>
