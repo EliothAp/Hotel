@@ -28,6 +28,7 @@ public class AdminController {
     // Panel principal del ADMIN (solo muestra datos de su propio hotel)
     @GetMapping("/dashboard")
     public String dashboard(HttpServletRequest request, Principal principal, Model model) {
+        
         // Solo el ADMIN puede ver este panel
         if (!request.isUserInRole("ADMIN")) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN,

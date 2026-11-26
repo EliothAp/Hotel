@@ -1,0 +1,143 @@
+<!-- Fragmento #1: mensajes de éxito o error (vienen como flash attributes del controller) -->
+<section th:fragment="mensajes" class="container pt-4">
+    <div th:if="${todoOk}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="fa-solid fa-circle-check"></i> [[${todoOk}]]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" th:aria-label="#{accion.cerrar}"></button>
+    </div>
+    <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fa-solid fa-circle-exclamation"></i> [[${error}]]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" th:aria-label="#{accion.cerrar}"></button>
+    </div>
+</section>
+
+<!-- Fragmento #2: título y tarjetas con la cantidad de reservas por estado -->
+<section th:fragment="resumen" class="container py-3">
+    <h2 class="texto-hotel mb-1">
+        <i class="fa-solid fa-calendar-check"></i> [[#{reserva.titulo}]] - [[${empresa.nombre}]]
+    </h2>
+    <p class="text-muted">[[#{reserva.descripcion}]]</p>
+
+    <div class="row g-3">
+        <div class="col-md-4">
+            <div class="card text-center shadow-sm tarjeta-resumen">
+                <div class="card-body">
+                    <i class="fa-solid fa-hourglass-half fa-2x text-warning"></i>
+                    <h3 class="mt-2 mb-0">[[${totalPendientes}]]</h3>
+                    <small class="text-muted">[[#{reserva.pendientes}]]</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center shadow-sm tarjeta-resumen">
+                <div class="card-body">
+                    <i class="fa-solid fa-circle-check fa-2x text-success"></i>
+                    <h3 class="mt-2 mb-0">[[${totalConfirmadas}]]</h3>
+                    <small class="text-muted">[[#{reserva.confirmadas}]]</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center shadow-sm tarjeta-resumen">
+                <div class="card-body">
+                    <i class="fa-solid fa-ban fa-2x text-danger"></i>
+                    <h3 class="mt-2 mb-0">[[${totalCanceladas}]]</h3>
+                    <small class="text-muted">[[#{reserva.canceladas}]]</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Fragmento #3: tabla de reservas con los botones Confirmar y Cancelar -->
+<section th:fragment="listado" class="container pb-4">
+    <div class="card shadow-sm">
+        <div class="card-header encabezado-seccion text-white">
+            <h4 class="mb-0">[[#{admin.reservas}]]</h4>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive" th:if="${reservas != null and !reservas.empty}">
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>[[#{reserva.cliente}]]</th>
+                            <th>[[#{reserva.habitacion}]]</th>
+                            <th>[[#{reserva.entrada}]]</th>
+                            <th>[[#{reserva.salida}]]</th>
+                            <th>[[#{reserva.total}]]</th>
+                            <th>[[#{reserva.estado}]]</th>
+                            <th>[[#{reserva.acciones}]]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="r : ${reservas}">
+                            <td>[[${r.idReserva}]]</td>
+                            <td th:text="${r.cliente != null ? r.cliente.nombre : ''}"></td>
+                            <td><strong>[[${r.habitacion.numero}]]</strong></td>
+                            <td>[[${#temporals.format(r.fechaEntrada, 'dd/MM/yyyy')}]]</td>
+                            <td>[[${#temporals.format(r.fechaSalida, 'dd/MM/yyyy')}]]</td>
+                            <td>[[${#numbers.formatCurrency(r.total)}]]</td>
+                            <td>
+                                <span th:if="${r.estado == 'PENDIENTE'}" class="badge bg-warning text-dark">[[#{reserva.estado.pendiente}]]</span>
+                                <span th:if="${r.estado == 'CONFIRMADA'}" class="badge bg-success">[[#{reserva.estado.confirmada}]]</span>
+                                <span th:if="${r.estado == 'CANCELADA'}" class="badge bg-secondary">[[#{reserva.estado.cancelada}]]</span>
+                            </td>
+                            <td>
+                                <!-- Confirmar: solo aparece si la reserva está pendiente -->
+                                <form th:if="${r.estado == 'PENDIENTE'}"
+                                      th:action="@{/admin/reservas/confirmar}"
+                                      method="post" class="d-inline">
+                                    <input type="hidden" name="idReserva" th:value="${r.idReserva}"/>
+                                    <button type="submit" class="btn btn-success btn-sm">
+                                        <i class="fa-solid fa-check"></i> [[#{reserva.confirmar}]]
+                                    </button>
+                                </form>
+
+                                <!-- Cancelar: abre una ventana para confirmar antes de cancelar -->
+                                <button th:if="${r.estado != 'CANCELADA'}"
+                                        type="button" class="btn btn-outline-danger btn-sm"
+                                        data-bs-toggle="modal" data-bs-target="#cancelarModal"
+                                        th:data-id="${r.idReserva}"
+                                        th:data-descripcion="${(r.cliente != null ? r.cliente.nombre : '') + ' - ' + r.habitacion.numero}">
+                                    <i class="fa-solid fa-xmark"></i> [[#{reserva.cancelar}]]
+                                </button>
+
+                                <span th:if="${r.estado == 'CANCELADA'}" class="text-muted small">[[#{reserva.sinAcciones}]]</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="text-center p-2" th:if="${reservas == null or reservas.empty}">
+                <span>[[#{lista.vacia}]]</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Fragmento #4: ventana para confirmar la cancelación -->
+<section th:fragment="modalCancelar">
+    <div class="modal fade" id="cancelarModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form th:action="@{/admin/reservas/cancelar}" method="post">
+                    <input type="hidden" name="idReserva" id="cancelarId"/>
+                    <div class="modal-header bg-danger text-white">
+                        <h5 class="modal-title">[[#{reserva.cancelar.titulo}]]</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" th:aria-label="#{accion.cerrar}"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>[[#{reserva.cancelar.texto}]] <strong id="cancelarDescripcion"></strong>?</p>
+                        <p class="text-muted small mb-0">[[#{reserva.cancelar.aviso}]]</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">[[#{reserva.volver}]]</button>
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fa-solid fa-xmark"></i> [[#{reserva.cancelar}]]
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

@@ -25,6 +25,11 @@ public class Reserva implements Serializable {
     @JoinColumn(name = "id_empresa", nullable = false)
     @NotNull(message = "La empresa no puede estar vacía.")
     private Empresa empresa;
+    
+    @ManyToOne
+    @JoinColumn(name = "id_cliente", nullable = false)
+    @NotNull(message = "El cliente no puede estar vacío.")
+    private Usuario cliente;
 
     @ManyToOne
     @JoinColumn(name = "id_habitacion", nullable = false)
@@ -39,7 +44,6 @@ public class Reserva implements Serializable {
     @NotNull(message = "La fecha de salida no puede estar vacía.")
     private LocalDate fechaSalida;
 
-    //Estados: PENDIENTE, CONFIRMADA o CANCELADA
     @Column(nullable = false, length = 20)
     private String estado;
 

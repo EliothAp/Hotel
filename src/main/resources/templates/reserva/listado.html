@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <!-- US-08: el ADMIN confirma o cancela las reservas de su hotel -->
+    <head th:replace="~{admin/fragmentos :: head}"></head>
+
+    <body>
+        <header th:replace="~{admin/fragmentos :: encabezado}"></header>
+
+        <section th:replace="~{reserva/fragmentos :: mensajes}"></section>
+        <section th:replace="~{reserva/fragmentos :: resumen}"></section>
+        <section th:replace="~{reserva/fragmentos :: listado}"></section>
+        <section th:replace="~{reserva/fragmentos :: modalCancelar}"></section>
+
+        <footer th:replace="~{admin/fragmentos :: pie}"></footer>
+        <script th:src="@{/js/reserva.js}"></script>
+    </body>
+</html>

@@ -30,6 +30,9 @@
         <section class="container py-4">
             <h2 class="texto-hotel mb-1">[[#{admin.bienvenida}]] - [[${empresa.nombre}]]</h2>
             <p class="text-muted mb-0">[[#{admin.descripcion}]]</p>
+            <a th:href="@{/admin/reservas/listado}" class="btn btn-success btn-sm mt-2">
+                <i class="fa-solid fa-calendar-check"></i> [[#{admin.gestionarReservas}]]
+            </a>
         </section>
 
         <!-- Resumen general de su hotel -->
